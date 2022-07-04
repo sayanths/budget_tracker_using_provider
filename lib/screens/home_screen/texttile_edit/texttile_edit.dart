@@ -9,8 +9,10 @@ import 'package:money_management_app1/screens/transaction_model/transaction_mode
 import 'package:money_management_app1/styles_color.dart';
 
 class EditPage extends StatefulWidget {
-  const EditPage({super.key, required this.datas});
+
   final TransactionModel datas;
+
+  const EditPage({Key? key, required this.datas}) : super(key: key);
 
   @override
   State<EditPage> createState() => _EditPageState();

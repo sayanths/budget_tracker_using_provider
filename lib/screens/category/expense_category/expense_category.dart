@@ -6,10 +6,9 @@ import 'package:money_management_app1/screens/home_screen/home_page_widget/home_
 class ExpenseCategory extends StatelessWidget {
   final CategoryType type;
 
-  const ExpenseCategory({
-    super.key,
-    required this.type,
-  });
+  const ExpenseCategory({Key? key,required this.type,}) : super(key: key);
+
+ 
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,9 @@ import 'package:money_management_app1/styles_color.dart';
 import '../db_functions/category/category_db.dart';
 
 class AddButton extends StatefulWidget {
-  const AddButton({super.key});
+  const AddButton({Key? key}) : super(key: key);
+
+
 
   @override
   State<AddButton> createState() => _AddButtonState();

@@ -7,10 +7,9 @@ import 'package:money_management_app1/screens/transaction_model/transaction_mode
 import 'package:money_management_app1/styles_color.dart';
 
 class IncomeChartList extends StatelessWidget {
-  const IncomeChartList({
-    super.key,
-  });
+  const IncomeChartList({Key? key}) : super(key: key);
 
+  
   @override
   Widget build(BuildContext context) {
     // TransactionDb.instance.refresh();

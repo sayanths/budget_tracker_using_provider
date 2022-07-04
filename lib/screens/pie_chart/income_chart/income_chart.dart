@@ -5,7 +5,9 @@ import 'package:money_management_app1/screens/pie_chart/chart_functions/chart_fu
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class IncomeChart extends StatefulWidget {
-  const IncomeChart({super.key});
+  const IncomeChart({Key? key}) : super(key: key);
+
+ 
 
   @override
   State<IncomeChart> createState() => _IncomeChartState();

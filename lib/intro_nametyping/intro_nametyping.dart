@@ -10,7 +10,9 @@ import 'package:money_management_app1/styles_color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NameTypingScreen extends StatefulWidget {
-  const NameTypingScreen({super.key});
+  const NameTypingScreen({Key? key}) : super(key: key);
+
+  
 
   @override
   State<NameTypingScreen> createState() => _NameTypingScreenState();

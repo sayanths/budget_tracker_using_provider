@@ -5,7 +5,9 @@ import 'package:money_management_app1/screens/home_screen/home_page_widget/home_
 import 'package:money_management_app1/styles_color.dart';
 
 class HeadingContainer extends StatelessWidget {
-  const HeadingContainer({super.key});
+  const HeadingContainer({Key? key}) : super(key: key);
+
+  
 
   @override
   Widget build(BuildContext context) {

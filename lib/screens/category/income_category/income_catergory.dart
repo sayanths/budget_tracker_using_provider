@@ -6,10 +6,9 @@ import 'package:money_management_app1/screens/home_screen/home_page_widget/home_
 class IncomeCategory extends StatefulWidget {
   final CategoryType type;
 
-  const IncomeCategory({
-    super.key,
-    required this.type,
-  });
+  const IncomeCategory({Key? key ,required this.type}) : super(key: key);
+
+
 
   @override
   State<IncomeCategory> createState() => _IncomeCategoryState();

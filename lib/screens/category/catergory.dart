@@ -7,7 +7,8 @@ import 'package:money_management_app1/screens/home_screen/home_page_widget/home_
 import 'package:money_management_app1/styles_color.dart';
 
 class Category extends StatefulWidget {
-  const Category({super.key});
+  const Category({Key? key}) : super(key: key);
+
 
   @override
   State<Category> createState() => _CategoryState();

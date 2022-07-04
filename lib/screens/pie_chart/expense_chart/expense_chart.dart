@@ -5,7 +5,9 @@ import 'package:money_management_app1/screens/pie_chart/chart_functions/chart_fu
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ExpenseChart extends StatefulWidget {
-  const ExpenseChart({super.key});
+  const ExpenseChart({Key? key}) : super(key: key);
+
+ 
 
   @override
   State<ExpenseChart> createState() => _ExpenseChartState();

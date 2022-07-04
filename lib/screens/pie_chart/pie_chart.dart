@@ -5,7 +5,9 @@ import 'package:money_management_app1/screens/pie_chart/income_chart/income_char
 import 'package:money_management_app1/styles_color.dart';
 
 class PieChart extends StatefulWidget {
-  const PieChart({super.key});
+  const PieChart({Key? key}) : super(key: key);
+
+  
 
   @override
   State<PieChart> createState() => _PieChartState();

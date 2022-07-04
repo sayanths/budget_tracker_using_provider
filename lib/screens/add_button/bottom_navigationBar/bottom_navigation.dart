@@ -6,7 +6,9 @@ import 'package:money_management_app1/screens/pie_chart/pie_chart.dart';
 import 'package:money_management_app1/screens/settings/settings.dart';
 
 class BottomNavigationPage extends StatefulWidget {
-  const BottomNavigationPage({super.key});
+  const BottomNavigationPage({Key? key}) : super(key: key);
+
+
 
   @override
   State<BottomNavigationPage> createState() => _BottomNavigationPageState();

@@ -7,9 +7,9 @@ import 'package:money_management_app1/screens/transaction_model/transaction_mode
 import 'package:money_management_app1/styles_color.dart';
 
 class ExpenseChartList extends StatelessWidget {
-  const ExpenseChartList({
-    super.key,
-  });
+  const ExpenseChartList({Key? key}) : super(key: key);
+
+ 
 
   @override
   Widget build(BuildContext context) {

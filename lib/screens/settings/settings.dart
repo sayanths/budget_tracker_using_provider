@@ -11,7 +11,9 @@ import 'package:money_management_app1/styles_color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({super.key});
+  const Settings({Key? key}) : super(key: key);
+
+
 
   @override
   State<Settings> createState() => _SettingsState();
