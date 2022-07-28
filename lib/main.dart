@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:money_management_app1/screens/category_model/category_model.dart';
-import 'package:money_management_app1/screens/db_functions/category/category_db.dart';
-import 'package:money_management_app1/screens/db_functions/category/transation_db/transation_db.dart';
-import 'package:money_management_app1/screens/splash_screen.dart';
-import 'package:money_management_app1/screens/transaction_model/transaction_model.dart';
+import 'package:money_management_app1/model/category_model/category_model.dart';
+import 'package:money_management_app1/model/transaction_model/transaction_model.dart';
+import 'package:money_management_app1/view_model/category_db.dart/category_db.dart';
+import 'package:money_management_app1/components/splash_screen.dart';
+import 'package:money_management_app1/view_model/transation_db/transation_db.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:timezone/data/latest.dart' as tz;
 // ignore: depend_on_referenced_packages
