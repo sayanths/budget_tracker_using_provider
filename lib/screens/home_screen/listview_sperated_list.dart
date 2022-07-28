@@ -10,9 +10,6 @@ import 'package:money_management_app1/styles_color.dart';
 
 class ItemList extends StatelessWidget {
   const ItemList({Key? key}) : super(key: key);
-
-
-
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(

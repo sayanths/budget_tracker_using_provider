@@ -21,18 +21,16 @@ class _IncomeCategoryState extends State<IncomeCategory> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Flexible(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 30, right: 30),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: OutlinedButton.icon(
-                onPressed: () {
-                  popupDialofForAddIncome(context, widget.type);
-                },
-                icon: const Icon(Icons.add),
-                label: const Text("Add Category"),
-              ),
+        Padding(
+          padding: const EdgeInsets.only(top: 30, right: 30),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: OutlinedButton.icon(
+              onPressed: () {
+                popupDialofForAddIncome(context, widget.type);
+              },
+              icon: const Icon(Icons.add),
+              label: const Text("Add Category"),
             ),
           ),
         ),
@@ -107,13 +105,11 @@ class _IncomeCategoryState extends State<IncomeCategory> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
-                            child: Flexible(
-                              child: Text(
-                                incomect.name,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
+                            child: Text(
+                              incomect.name,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15),
                             ),
                           ),
                         ),
