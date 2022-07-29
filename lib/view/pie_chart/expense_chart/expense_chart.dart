@@ -28,7 +28,7 @@ class _ExpenseChartState extends State<ExpenseChart> {
   @override
   void initState() {
     TransactionDb.instance.refresh();
-    CategoryDB.instance.refreshUi();
+  //  CategoryDB.instance.refreshUi();
     super.initState();
   }
 

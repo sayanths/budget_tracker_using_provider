@@ -10,11 +10,8 @@ import 'package:money_management_app1/view_model/transation_db/transation_db.dar
 import '../home_screen/home_page_widget/home_page_widget.dart';
 import 'add_button_widget.dart/add_button_widget.dart';
 
-
 class AddButton extends StatefulWidget {
   const AddButton({Key? key}) : super(key: key);
-
-
 
   @override
   State<AddButton> createState() => _AddButtonState();
@@ -45,7 +42,7 @@ class _AddButtonState extends State<AddButton> {
   @override
   Widget build(BuildContext context) {
     TransactionDb.instance.refresh();
-    CategoryDB.instance.refreshUi();
+    // CategoryDB.instance.refreshUi();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 0),
@@ -162,31 +159,31 @@ class _AddButtonState extends State<AddButton> {
                                   width: 1)),
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton(
-                                hint: const Text('Category'),
-                                value: categoryId,
-                                items: (_categoryTypeSelected ==
-                                            CategoryType.income
-                                        ? CategoryDB().incomeCategoryListable
-                                        : CategoryDB().expesneCategoryListable)
-                                    .value
-                                    .map((e) {
-                                  return DropdownMenuItem(
-                                    value: e.id,
-                                    onTap: (() {
-                                      // ignore: avoid_print
-                                      print(e.toString());
-                                      categoryModel = e;
-                                    }),
-                                    child: Text(e.name),
-                                  );
-                                }).toList(),
-                                onChanged: ((selectedValue) {
-                                  // ignore: avoid_print
-                                  print(selectedValue);
-                                  setState(() {
-                                    categoryId = selectedValue.toString();
-                                  });
-                                })),
+                              hint: const Text('Category'),
+                              value: categoryId,
+                              items: (_categoryTypeSelected ==
+                                          CategoryType.income
+                                      ? CategoryDB().incomeCategoryListenable
+                                      : CategoryDB().expesneCategoryListable)
+                                  .map((e) {
+                                return DropdownMenuItem(
+                                  value: e.id,
+                                  onTap: (() {
+                                    // ignore: avoid_print
+                                    print(e.toString());
+                                    categoryModel = e;
+                                  }),
+                                  child: Text(e.name),
+                                );
+                              }).toList(),
+                              onChanged: ((selectedValue) {
+                                // ignore: avoid_print
+                                print(selectedValue);
+                                setState(() {
+                                  categoryId = selectedValue.toString();
+                                });
+                              }),
+                            ),
                           ),
                         ),
                         IconButton(
@@ -251,6 +248,7 @@ class _AddButtonState extends State<AddButton> {
       ),
     );
   }
+
   Future<void> _addtransaction(context) async {
     String id = DateTime.now().millisecondsSinceEpoch.toString();
     final amountText = amountEditingController.text;

@@ -1,118 +1,68 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:money_management_app1/view/add_button/add_button.dart';
 
 import 'package:money_management_app1/view/home_screen/home_page.dart';
 import 'package:money_management_app1/view/pie_chart/pie_chart.dart';
+import 'package:money_management_app1/view_model/bottom_controller/bottom_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../category/catergory.dart';
 import '../../settings/settings.dart';
 
-
-class BottomNavigationPage extends StatefulWidget {
-  const BottomNavigationPage({Key? key}) : super(key: key);
-
-
-
-  @override
-  State<BottomNavigationPage> createState() => _BottomNavigationPageState();
-}
-
-class _BottomNavigationPageState extends State<BottomNavigationPage> {
-  int _currentIndex = 0;
-  final List screens = [
+class BottomNaavigationBar extends StatelessWidget {
+  BottomNaavigationBar({Key? key}) : super(key: key);
+  List<dynamic> screens = [
     const HomePage(),
     const PieChart(),
     const Category(),
     const Settings(),
   ];
 
-  final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = const HomePage();
-
+  
   @override
   Widget build(BuildContext context) {
+    final screenindexprovider = Provider.of<ScreenIndexProvider>(context);
+    int currentScreenIndex = screenindexprovider.fetchCurrentScreenIndex;
     return Scaffold(
-      body: PageStorage(
-        bucket: bucket,
-        child: currentScreen,
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          height: 60,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color.fromARGB(255, 4, 108, 194),
-              Color.fromARGB(255, 8, 82, 152),
-            ]),
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(
-                onPressed: (() {
-                  setState(() {
-                    currentScreen = const HomePage();
-                    _currentIndex = 0;
-                  });
-                }),
-                icon: Icon(
-                  Icons.home,
-                  size: 40,
-                  color: _currentIndex == 0
-                      ? const Color.fromARGB(255, 94, 236, 255)
-                      : const Color.fromARGB(255, 251, 249, 249),
-                ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
+        showSelectedLabels: false,
+        elevation: 1.5,
+        currentIndex: currentScreenIndex,
+        onTap: (value) => screenindexprovider.updateScreenIndex(value),
+        items: [
+          BottomNavigationBarItem(
+              label: 'Home',
+              icon: Icon(
+                  (currentScreenIndex == 0) ? Icons.home : Icons.home_outlined),
+              backgroundColor: Colors.blue
+               
               ),
-              IconButton(
-                  onPressed: (() {
-                    setState(() {
-                      currentScreen = const PieChart();
-                      _currentIndex = 1;
-                    });
-                  }),
-                  icon: Icon(
-                    Icons.pie_chart,
-                    size: 40,
-                    color: _currentIndex == 1
-                        ? const Color.fromARGB(255, 94, 236, 255)
-                        : const Color.fromARGB(255, 251, 249, 249),
-                  )),
-              IconButton(
-                  onPressed: (() {
-                    setState(() {
-                      currentScreen = const Category();
-                      _currentIndex = 2;
-                    });
-                  }),
-                  icon: Icon(
-                    Icons.category,
-                    size: 40,
-                    color: _currentIndex == 2
-                        ? const Color.fromARGB(255, 94, 236, 255)
-                        : const Color.fromARGB(255, 251, 249, 249),
-                  )),
-              IconButton(
-                  onPressed: (() {
-                    setState(() {
-                      currentScreen = const Settings();
-                      _currentIndex = 3;
-                    });
-                  }),
-                  icon: Icon(
-                    Icons.settings,
-                    size: 40,
-                    color: _currentIndex == 3
-                        ? const Color.fromARGB(255, 94, 236, 255)
-                        : const Color.fromARGB(255, 251, 249, 249),
-                  )),
-            ],
+          BottomNavigationBarItem(
+            label: 'chart',
+            icon: Icon((currentScreenIndex == 1)
+                ? Icons.pie_chart_outline_outlined
+                : Icons.pie_chart),
           ),
-        ),
+          BottomNavigationBarItem(
+            label: 'category',
+            icon: Icon((currentScreenIndex == 2)
+                ? Icons.category_rounded
+                : Icons.category),
+          ),
+          BottomNavigationBarItem(
+            label: 'settings',
+            icon: Icon((currentScreenIndex == 3)
+                ? Icons.settings_applications
+                : Icons.settings),
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 3, 106, 242),
+      body: screens[currentScreenIndex],
+           floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromARGB(255, 34, 137, 211),
         onPressed: (() {
           Navigator.of(context).push(
               MaterialPageRoute(builder: ((context) => const AddButton())));
@@ -122,7 +72,8 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
           size: 50,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+     // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    
     );
   }
 }

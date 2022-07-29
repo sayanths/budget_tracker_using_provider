@@ -97,7 +97,7 @@ class _NameTypingScreenState extends State<NameTypingScreen> {
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const BottomNavigationPage()));
+                                       BottomNaavigationBar()));
                         },
                         child: const Text("submit")),
                   ],

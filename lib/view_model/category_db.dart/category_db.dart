@@ -5,7 +5,6 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_management_app1/model/category_model/category_model.dart';
 
-
 const categorydbname = 'category_db_name';
 
 abstract class CategoryDbFunctions {
@@ -15,7 +14,7 @@ abstract class CategoryDbFunctions {
   Future<void> clearCategory();
 }
 
-class CategoryDB implements CategoryDbFunctions {
+class CategoryDB extends CategoryDbFunctions with ChangeNotifier {
   CategoryDB.internal();
 
   static CategoryDB instance = CategoryDB.internal();
@@ -23,12 +22,11 @@ class CategoryDB implements CategoryDbFunctions {
   factory CategoryDB() {
     return instance;
   }
-
-  ValueNotifier<List<CategoryModel>> incomeCategoryListable = ValueNotifier([]);
-  ValueNotifier<List<CategoryModel>> expesneCategoryListable =
-      ValueNotifier([]);
+  List<CategoryModel> expesneCategoryListable = [];
+  List<CategoryModel> incomeCategoryListenable = [];
 
   @override
+  // ignore: avoid_renaming_method_parameters
   Future<void> insertCategory(CategoryModel value) async {
     final categoryDB = await Hive.openBox<CategoryModel>(categorydbname);
     categoryDB.put(value.id, value);
@@ -43,21 +41,16 @@ class CategoryDB implements CategoryDbFunctions {
 
   Future<void> refreshUi() async {
     final allCategories = await getCategories();
-    incomeCategoryListable.value.clear();
-    expesneCategoryListable.value.clear();
+    incomeCategoryListenable.clear();
+    expesneCategoryListable.clear();
     await Future.forEach(allCategories, (CategoryModel category) {
       if (category.type == CategoryType.income) {
-        incomeCategoryListable.value.add(category);
+        incomeCategoryListenable.add(category);
       } else {
-        expesneCategoryListable.value.add(category);
+        expesneCategoryListable.add(category);
       }
     });
-
-    // ignore: invalid_use_of_protected_member
-    incomeCategoryListable.notifyListeners();
-
-    // ignore: invalid_use_of_protected_member
-    expesneCategoryListable.notifyListeners();
+    notifyListeners();
   }
 
   @override

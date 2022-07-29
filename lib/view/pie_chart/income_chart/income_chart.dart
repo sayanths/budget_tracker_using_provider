@@ -35,7 +35,7 @@ class _IncomeChartState extends State<IncomeChart> {
   @override
   void initState() {
     TransactionDb.instance.refresh();
-    CategoryDB.instance.refreshUi();
+   // CategoryDB.instance.refreshUi();
 
     super.initState();
   }

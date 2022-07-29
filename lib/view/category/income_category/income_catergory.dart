@@ -3,14 +3,12 @@ import 'package:money_management_app1/model/category_model/category_model.dart';
 
 import 'package:money_management_app1/view_model/category_db.dart/category_db.dart';
 import 'package:money_management_app1/view/home_screen/home_page_widget/home_page_widget.dart';
-
+import 'package:provider/provider.dart';
 
 class IncomeCategory extends StatefulWidget {
   final CategoryType type;
 
-  const IncomeCategory({Key? key ,required this.type}) : super(key: key);
-
-
+  const IncomeCategory({Key? key, required this.type}) : super(key: key);
 
   @override
   State<IncomeCategory> createState() => _IncomeCategoryState();
@@ -19,8 +17,13 @@ class IncomeCategory extends StatefulWidget {
 class _IncomeCategoryState extends State<IncomeCategory> {
   final nameEditingController = TextEditingController();
 
+
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Provider.of<CategoryDB>(context, listen: false).refreshUi();
+    });
     return Column(
       children: [
         Padding(
@@ -55,144 +58,139 @@ class _IncomeCategoryState extends State<IncomeCategory> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: ValueListenableBuilder(
-                valueListenable: CategoryDB().incomeCategoryListable,
-                builder: (BuildContext context, List<CategoryModel> incomeList,
-                    Widget? _) {
-                  return GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            mainAxisSpacing: 5,
-                            crossAxisSpacing: 5,
-                            crossAxisCount: 5),
-                    itemBuilder: ((context, index) {
-                      final incomect = incomeList[index];
-                      return GestureDetector(
-                        onTap: (() {
-                          showDialog(
-                            context: context,
-                            builder: ((context) {
-                              return AlertDialog(
-                                title: const Text("Do you want to delete?"),
-                                actions: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      TextButton(
-                                          onPressed: () {
-                                            CategoryDB()
-                                                .deleteCategory(incomect.id);
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text("Yes")),
-                                      const SizedBox(
-                                        width: 30,
-                                      ),
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text("No")),
-                                    ],
-                                  ),
-                                ],
-                              );
-                            }),
-                          );
-                        }),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 255, 255, 255),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              incomect.name,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15),
+                padding: const EdgeInsets.all(15.0),
+                child: Consumer<CategoryDB>(
+                  builder: (context, icomeList, _) {
+                    return GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisSpacing: 5,
+                              crossAxisSpacing: 5,
+                              crossAxisCount: 5),
+                      itemBuilder: ((context, index) {
+                        final income =
+                            icomeList.incomeCategoryListenable[index];
+                        return GestureDetector(
+                          onTap: (() {
+                            showDialog(
+                              context: context,
+                              builder: ((context) {
+                                return AlertDialog(
+                                  title: const Text("Do you want to delete?"),
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        TextButton(
+                                            onPressed: () {
+                                              context
+                                                  .read<CategoryDB>()
+                                                  .deleteCategory(income.id);
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text("Yes")),
+                                        const SizedBox(
+                                          width: 30,
+                                        ),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text("No")),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              }),
+                            );
+                          }),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 255, 255, 255),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Text(
+                                income.name,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }),
-                    itemCount: incomeList.length,
-                  );
-                },
-              ),
-            ),
+                        );
+                      }),
+                      itemCount: icomeList.incomeCategoryListenable.length,
+                    );
+                  },
+                )),
           ),
         ),
       ],
     );
   }
-
- 
-
-  
 }
- final fomekeySecond = GlobalKey<FormState>();
- popupDialofForAddIncome(dynamic context, type) {
-    final nameEditingController = TextEditingController();
 
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        return AlertDialog(
-          content: Form(
-            key: fomekeySecond,
-            child: TextFormField(
-                maxLength: 10,
-              controller: nameEditingController,
-              decoration:
-                  const InputDecoration(hintText: 'Enter the Income Category'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please Enter the income category';
-                } else {
-                  return null;
-                }
-              },
+final fomekeySecond = GlobalKey<FormState>();
+popupDialofForAddIncome(dynamic context, type) {
+  final nameEditingController = TextEditingController();
+
+  showDialog(
+    context: context,
+    builder: (ctx) {
+      return AlertDialog(
+        content: Form(
+          key: fomekeySecond,
+          child: TextFormField(
+            maxLength: 10,
+            controller: nameEditingController,
+            decoration:
+                const InputDecoration(hintText: 'Enter the Income Category'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please Enter the income category';
+              } else {
+                return null;
+              }
+            },
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    fomekeySecond.currentState?.validate();
+
+                    final name = nameEditingController.text;
+                    if (name.isEmpty) {
+                      return;
+                    } else {
+                      final category = CategoryModel(
+                          id: DateTime.now().millisecondsSinceEpoch.toString(),
+                          name: name,
+                          type: CategoryType.income);
+                      CategoryDB().insertCategory(category);
+                      Navigator.of(ctx).pop();
+                    }
+                  },
+                  child: const Text("Save"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("cancel"),
+                ),
+              ],
             ),
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      fomekeySecond.currentState?.validate();
+        ],
+      );
+    },
+  );
+}
 
-                      final name = nameEditingController.text;
-                      if (name.isEmpty) {
-                        return;
-                      } else {
-                        final category = CategoryModel(
-                            id: DateTime.now()
-                                .millisecondsSinceEpoch
-                                .toString(),
-                            name: name,
-                            type: CategoryType.income);
-                        CategoryDB().insertCategory(category);
-                        Navigator.of(ctx).pop();
-                      }
-                    },
-                    child: const Text("Save"),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("cancel"),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }

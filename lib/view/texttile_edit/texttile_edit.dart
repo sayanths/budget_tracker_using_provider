@@ -51,7 +51,7 @@ class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
     TransactionDb.instance.refresh();
-    CategoryDB.instance.refreshUi();
+  //  CategoryDB.instance.refreshUi();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 0),
@@ -186,51 +186,51 @@ class _EditPageState extends State<EditPage> {
                       ],
                     ),
                     spaceGive,
-                    Row(
-                      children: [
-                        const Expanded(
-                          child: Text(
-                            "Category",
-                            style: listTileText,
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Colors.grey)
-                            ),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                  hint: Text(widget.datas.category.name),
-                                  value: categoryId,
-                                  items: (_categoryTypeSelected ==
-                                              CategoryType.income
-                                          ? CategoryDB().incomeCategoryListable
-                                          : CategoryDB().expesneCategoryListable)
-                                      .value
-                                      .map((e) {
-                                    return DropdownMenuItem(
-                                      value: e.id,
-                                      onTap: (() {
-                                        // ignore: avoid_print
-                                        print(e.toString());
-                                        categoryModel = e;
-                                      }),
-                                      child: Text(e.name),
-                                    );
-                                  }).toList(),
-                                  onChanged: ((selectedValue) {
-                                    // ignore: avoid_print
-                                    print(selectedValue);
-                                    setState(() {
-                                      categoryId = selectedValue.toString();
-                                    });
-                                  })),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     const Expanded(
+                    //       child: Text(
+                    //         "Category",
+                    //         style: listTileText,
+                    //       ),
+                    //     ),
+                    //     Expanded(
+                    //       child: Container(
+                    //         decoration: BoxDecoration(
+                    //           border: Border.all(width: 1,color: Colors.grey)
+                    //         ),
+                    //         child: DropdownButtonHideUnderline(
+                    //           child: DropdownButton(
+                    //               hint: Text(widget.datas.category.name),
+                    //               value: categoryId,
+                    //               items: (_categoryTypeSelected ==
+                    //                           CategoryType.income
+                    //                       ? CategoryDB().incomeCategoryListable
+                    //                       : CategoryDB().expesneCategoryListable)
+                    //                   .value
+                    //                   .map((e) {
+                    //                 return DropdownMenuItem(
+                    //                   value: e.id,
+                    //                   onTap: (() {
+                    //                     // ignore: avoid_print
+                    //                     print(e.toString());
+                    //                     categoryModel = e;
+                    //                   }),
+                    //                   child: Text(e.name),
+                    //                 );
+                    //               }).toList(),
+                    //               onChanged: ((selectedValue) {
+                    //                 // ignore: avoid_print
+                    //                 print(selectedValue);
+                    //                 setState(() {
+                    //                   categoryId = selectedValue.toString();
+                    //                 });
+                    //               })),
+                    //         ),
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
                     spaceGive,
                     Row(
                       children: [

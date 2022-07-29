@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:money_management_app1/model/category_model/category_model.dart';
 import 'package:money_management_app1/model/transaction_model/transaction_model.dart';
 
-
 const transationDbName = 'transation_db';
 
 abstract class TransactionDbFunction {
@@ -18,7 +17,7 @@ abstract class TransactionDbFunction {
   Future<void> updateTransation(String id, TransactionModel transationUpdate);
 }
 
-class TransactionDb implements TransactionDbFunction {
+class TransactionDb extends TransactionDbFunction with ChangeNotifier {
   TransactionDb._internal();
   static TransactionDb instance = TransactionDb._internal();
 
@@ -26,8 +25,10 @@ class TransactionDb implements TransactionDbFunction {
     return instance;
   }
 
-  ValueNotifier<List<TransactionModel>> transationListNotifier =
-      ValueNotifier([]);
+  List<TransactionModel> transationListNotifier = [];
+
+  // ValueNotifier<List<TransactionModel>> transationListNotifier =
+  //     ValueNotifier([]);
 
   ValueNotifier<List<TransactionModel>> incomeChartListNotifier =
       ValueNotifier([]);
@@ -46,10 +47,13 @@ class TransactionDb implements TransactionDbFunction {
   ValueNotifier<double> incomeNotifier = ValueNotifier(0);
   ValueNotifier<double> expenseNotifier = ValueNotifier(0);
 
-  ValueNotifier<List<TransactionModel>> todayNotifier = ValueNotifier([]);
-  ValueNotifier<List<TransactionModel>> yesterdayNotifier = ValueNotifier([]);
-  ValueNotifier<List<TransactionModel>> monthelyNotifier = ValueNotifier([]);
+  // ValueNotifier<List<TransactionModel>> todayNotifier = ValueNotifier([]);
+  // ValueNotifier<List<TransactionModel>> yesterdayNotifier = ValueNotifier([]);
+  //ValueNotifier<List<TransactionModel>> monthelyNotifier = ValueNotifier([]);
 
+  List<TransactionModel> monthelyNotifier = [];
+  List<TransactionModel> yesterdayNotifier = [];
+  List<TransactionModel> todayNotifier = [];
 
   ValueNotifier<List<TransactionModel>> todayIncomeNotifier = ValueNotifier([]);
   ValueNotifier<List<TransactionModel>> yesterdayIncomeNotifier =
@@ -65,16 +69,16 @@ class TransactionDb implements TransactionDbFunction {
     list = list.reversed.toList();
     todayIncomeNotifier.value.clear();
     yesterdayIncomeNotifier.value.clear();
-    todayNotifier.value.clear();
-    yesterdayNotifier.value.clear();
+    todayNotifier.clear();
+    yesterdayNotifier.clear();
     todayExpenseNotifier.value.clear();
     yesterdayExpenseNotifier.value.clear();
-    monthelyNotifier.value.clear();
+    monthelyNotifier.clear();
 
     //for desending the date order that will appear in the main page
     list.sort(((a, b) => b.date.compareTo(a.date)));
-    transationListNotifier.value.clear();
-    transationListNotifier.value.addAll(list);
+    transationListNotifier.clear();
+    transationListNotifier.addAll(list);
 
     incomeChartListNotifier.value.clear();
     expenseChartListNotifier.value.clear();
@@ -104,15 +108,15 @@ class TransactionDb implements TransactionDbFunction {
       String databaseDate = DateFormat.yMd().format(category.date);
 
       if (todayDate == databaseDate) {
-        todayNotifier.value.add(category);
+        todayNotifier.add(category);
       }
 
       if (yesterdayDate == databaseDate) {
-        yesterdayNotifier.value.add(category);
+        yesterdayNotifier.add(category);
       }
 
       if (monthlyDate == databaseDate) {
-        monthelyNotifier.value.add(category);
+        monthelyNotifier.add(category);
       }
 
       if (category.type == CategoryType.income) {
@@ -136,7 +140,7 @@ class TransactionDb implements TransactionDbFunction {
     balacneNotifier.value = incomeNotifier.value - expenseNotifier.value;
 
     // ignore: invalid_use_of_protected_member
-    transationListNotifier.notifyListeners();
+    // transationListNotifier.notifyListeners();
     // ignore: invalid_use_of_protected_member
     incomeChartListNotifier.notifyListeners();
     // ignore: invalid_use_of_protected_member
@@ -149,11 +153,11 @@ class TransactionDb implements TransactionDbFunction {
     expenseNotifier.notifyListeners();
 
     // ignore: invalid_use_of_protected_member
-    todayNotifier.notifyListeners();
+    //todayNotifier.notifyListeners();
     // ignore: invalid_use_of_protected_member
-    yesterdayNotifier.notifyListeners();
+    //yesterdayNotifier.notifyListeners();
     // ignore: invalid_use_of_protected_member
-   monthelyNotifier.notifyListeners();
+   // monthelyNotifier.notifyListeners();
 
     // ignore: invalid_use_of_protected_member
     todayIncomeNotifier.notifyListeners();
@@ -164,6 +168,8 @@ class TransactionDb implements TransactionDbFunction {
     todayExpenseNotifier.notifyListeners();
     // ignore: invalid_use_of_protected_member
     yesterdayExpenseNotifier.notifyListeners();
+    notifyListeners();
+    
   }
 
   @override
@@ -177,12 +183,14 @@ class TransactionDb implements TransactionDbFunction {
     final db = await Hive.openBox<TransactionModel>(transationDbName);
     await db.delete(transationid);
     refresh();
+    notifyListeners();
   }
 
   @override
   Future<void> clearTransaction() async {
     final db = await Hive.openBox<TransactionModel>(transationDbName);
     await db.clear();
+    notifyListeners();
   }
 
   @override
@@ -191,5 +199,10 @@ class TransactionDb implements TransactionDbFunction {
     final db = await Hive.openBox<TransactionModel>(transationDbName);
     await db.put(index, transationUpdate);
     getAllTransactions();
+    notifyListeners();
   }
+
+
+
+
 }

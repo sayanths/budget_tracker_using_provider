@@ -8,6 +8,7 @@ import 'package:money_management_app1/view/texttile_edit/texttile_edit.dart';
 import 'package:money_management_app1/view/view_more/more_Screen_widget/more_screen_widget.dart';
 import 'package:money_management_app1/view_model/transation_db/transation_db.dart';
 import 'package:month_year_picker/month_year_picker.dart';
+import 'package:provider/provider.dart';
 import '../add_button/add_button_widget.dart/add_button_widget.dart';
 import '../home_screen/home_page_widget/home_page_widget.dart';
 
@@ -81,161 +82,162 @@ class _ViewMoreListState extends State<ViewMoreList> {
             ),
             spaceGive,
             spaceGive,
-            ValueListenableBuilder(
-                valueListenable: valueChecking(context),
-                builder: (BuildContext context, List<TransactionModel> newList,
-                    Widget? _) {
-                  return newList.isEmpty
-                      ? Column(
-                          children: const [Text("No  transaction Added")],
-                        )
-                      : ListView.separated(
-                          physics: const BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: ((BuildContext context, int index) {
-                            final newValue = newList[index];
-                            return Slidable(
-                              endActionPane: ActionPane(
-                                motion: const ScrollMotion(),
-                                children: [
-                                  SlidableAction(
-                                    onPressed: (BuildContext context) {
-                                      showDialog(
-                                        context: context,
-                                        builder: ((context) {
-                                          return AlertDialog(
-                                            title: const Text(
-                                                "Do you want to delete?"),
-                                            actions: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        TransactionDb()
-                                                            .deleteTransaction(
-                                                                newValue.id
-                                                                    .toString());
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: const Text("Yes")),
-                                                  const SizedBox(
-                                                    width: 30,
-                                                  ),
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: const Text("No")),
-                                                ],
+            // ValueListenableBuilder(
+            //     valueListenable: valueChecking(context),
+            //     builder: (BuildContext context, List<TransactionModel> newList,
+            //         Widget? _) {
+            //       return
+            //     }),
+            Consumer<TransactionDb>(
+              builder: ((context, newList, _) {
+              return newList.transationListNotifier.isEmpty
+                  ? Column(
+                      children: const [Text("No  transaction Added")],
+                    )
+                  : ListView.separated(
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: ((BuildContext context, int index) {
+                        final newValue = newList.transationListNotifier[index];
+                        return Slidable(
+                          endActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            children: [
+                              SlidableAction(
+                                onPressed: (BuildContext context) {
+                                  showDialog(
+                                    context: context,
+                                    builder: ((context) {
+                                      return AlertDialog(
+                                        title: const Text(
+                                            "Do you want to delete?"),
+                                        actions: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    TransactionDb()
+                                                        .deleteTransaction(
+                                                            newValue.id
+                                                                .toString());
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text("Yes")),
+                                              const SizedBox(
+                                                width: 30,
                                               ),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text("No")),
                                             ],
-                                          );
-                                        }),
-                                      );
-                                    },
-                                    backgroundColor: const Color.fromARGB(
-                                        255, 255, 255, 255),
-                                    foregroundColor:
-                                        const Color.fromARGB(255, 175, 2, 2),
-                                    icon: Icons.delete,
-                                    label: 'Delete',
-                                  ),
-                                  SlidableAction(
-                                    onPressed: (BuildContext context) {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => EditPage(
-                                            datas: newValue,
                                           ),
-                                        ),
-                                      );
-                                    },
-                                    backgroundColor: const Color.fromARGB(
-                                        255, 255, 255, 255),
-                                    foregroundColor:
-                                        const Color.fromARGB(255, 38, 157, 2),
-                                    icon: Icons.edit,
-                                    label: 'Edit',
-                                  ),
-                                ],
-                              ),
-                              child: Container(
-                                height: 90,
-                                color: const Color.fromARGB(255, 250, 236, 198),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 14),
-                                  child: ListTile(
-                                    leading: Container(
-                                      width: 80,
-                                      decoration: BoxDecoration(
-                                        color:
-                                            newValue.type == CategoryType.income
-                                                ? const Color.fromARGB(
-                                                    255, 42, 139, 46)
-                                                : const Color.fromARGB(
-                                                    255, 208, 34, 21),
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          spaceGive,
-                                          Text(
-                                            parseDate(newValue.date),
-                                            style: listTextDate,
-                                          )
                                         ],
+                                      );
+                                    }),
+                                  );
+                                },
+                                backgroundColor:
+                                    const Color.fromARGB(255, 255, 255, 255),
+                                foregroundColor:
+                                    const Color.fromARGB(255, 175, 2, 2),
+                                icon: Icons.delete,
+                                label: 'Delete',
+                              ),
+                              SlidableAction(
+                                onPressed: (BuildContext context) {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => EditPage(
+                                        datas: newValue,
                                       ),
                                     ),
-                                    title: Text(
-                                      newValue.note.toString(),
-                                      style: listTileText,
-                                    ),
-                                    trailing: Text(
-                                      '₹${newValue.amount}',
-                                      style: TextStyle(
-                                          color: newValue.type ==
-                                                  CategoryType.income
+                                  );
+                                },
+                                backgroundColor:
+                                    const Color.fromARGB(255, 255, 255, 255),
+                                foregroundColor:
+                                    const Color.fromARGB(255, 38, 157, 2),
+                                icon: Icons.edit,
+                                label: 'Edit',
+                              ),
+                            ],
+                          ),
+                          child: Container(
+                            height: 90,
+                            color: const Color.fromARGB(255, 250, 236, 198),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 14),
+                              child: ListTile(
+                                leading: Container(
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    color: newValue.type == CategoryType.income
+                                        ? const Color.fromARGB(255, 42, 139, 46)
+                                        : const Color.fromARGB(
+                                            255, 208, 34, 21),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      spaceGive,
+                                      Text(
+                                        parseDate(newValue.date),
+                                        style: listTextDate,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                title: Text(
+                                  newValue.note.toString(),
+                                  style: listTileText,
+                                ),
+                                trailing: Text(
+                                  '₹${newValue.amount}',
+                                  style: TextStyle(
+                                      color:
+                                          newValue.type == CategoryType.income
                                               ? const Color.fromARGB(
                                                   255, 42, 139, 46)
                                               : const Color.fromARGB(
                                                   255, 223, 29, 15),
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
-                            );
-                          }),
-                          separatorBuilder: ((BuildContext context, int index) {
-                            return const SizedBox(
-                              height: 10,
-                            );
-                          }),
-                          itemCount: newList.length);
-                }),
+                            ),
+                          ),
+                        );
+                      }),
+                      separatorBuilder: ((BuildContext context, int index) {
+                        return const SizedBox(
+                          height: 10,
+                        );
+                      }),
+                      itemCount: newList.transationListNotifier.length);
+            }))
           ],
         ),
       ),
     );
   }
 
-  ValueNotifier<List<TransactionModel>> valueChecking(context) {
+  List<TransactionModel> valueChecking(context) {
     visibleMonth.value = false;
     if (_dropName == 'Today') {
-      return TransactionDb.instance.todayNotifier;
+      return Provider.of<TransactionDb>(context).todayNotifier;
     } else if (_dropName == 'Yesterday') {
-      return TransactionDb.instance.yesterdayNotifier;
+      print("ds");
+      return TransactionDb().yesterdayNotifier;
     } else if (_dropName == 'Monthly') {
       visibleMonth.value = true;
 
-      return TransactionDb.instance.monthelyNotifier;
+      return Provider.of<TransactionDb>(context).monthelyNotifier;
     } else {
-      return TransactionDb.instance.transationListNotifier;
+      return Provider.of<TransactionDb>(context).transationListNotifier;
     }
   }
 
@@ -250,18 +252,18 @@ class _ViewMoreListState extends State<ViewMoreList> {
       selectedMonth = selected ?? DateTime.now();
     });
 
-    TransactionDb.instance.monthelyNotifier.value.clear();
+    TransactionDb.instance.monthelyNotifier.clear();
     updateData();
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-    TransactionDb.instance.monthelyNotifier.notifyListeners();
+    //TransactionDb.instance.monthelyNotifier.notifyListeners();
   }
 
   updateData() async {
-    Future.forEach(TransactionDb.instance.transationListNotifier.value,
+    Future.forEach(TransactionDb.instance.transationListNotifier,
         (TransactionModel model) {
       if (model.date.month == selectedMonth.month &&
           model.date.year == selectedMonth.year) {
-        TransactionDb.instance.monthelyNotifier.value.add(model);
+        TransactionDb.instance.monthelyNotifier.add(model);
       }
     });
   }

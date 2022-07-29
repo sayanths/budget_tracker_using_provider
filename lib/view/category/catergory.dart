@@ -4,6 +4,7 @@ import 'package:money_management_app1/utils/styles_color.dart';
 import 'package:money_management_app1/view_model/category_db.dart/category_db.dart';
 import 'package:money_management_app1/view/category/expense_category/expense_category.dart';
 import 'package:money_management_app1/view/category/income_category/income_catergory.dart';
+import 'package:provider/provider.dart';
 
 import '../home_screen/home_page_widget/home_page_widget.dart';
 
@@ -20,6 +21,7 @@ class _CategoryState extends State<Category>
   late TabController _tabController;
   @override
   void initState() {
+   // Provider.of<CategoryDB>(context, listen: false).refreshUi();
     CategoryDB().refreshUi();
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
@@ -27,6 +29,7 @@ class _CategoryState extends State<Category>
 
   @override
   Widget build(BuildContext context) {
+  
     return SafeArea(
       child: Column(
         children: [

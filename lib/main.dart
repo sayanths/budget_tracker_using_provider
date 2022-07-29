@@ -1,12 +1,16 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:money_management_app1/model/category_model/category_model.dart';
 import 'package:money_management_app1/model/transaction_model/transaction_model.dart';
+import 'package:money_management_app1/view_model/bottom_controller/bottom_model.dart';
 import 'package:money_management_app1/view_model/category_db.dart/category_db.dart';
 import 'package:money_management_app1/components/splash_screen.dart';
 import 'package:money_management_app1/view_model/transation_db/transation_db.dart';
 import 'package:month_year_picker/month_year_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 // ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -34,9 +38,17 @@ Future<void> main() async {
   }
 
   TransactionDb().refresh;
-  CategoryDB.instance.refreshUi();
+  //CategoryDB.instance.refreshUi();
+   
 
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context)=>CategoryDB()),
+    ChangeNotifierProvider(create: (context)=>TransactionDb()),
+    ChangeNotifierProvider(create: (context)=>ScreenIndexProvider()),
+  ],
+  child: const MyApp(),
+  ),
+  );
 }
 
 const String sharedName = 'say';

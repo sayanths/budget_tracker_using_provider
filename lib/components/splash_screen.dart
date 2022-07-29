@@ -143,7 +143,7 @@ class _SplashScreenState extends State<SplashScreen>
           MaterialPageRoute(builder: (context) => const NameTypingScreen()));
     } else {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const BottomNavigationPage()));
+          context, MaterialPageRoute(builder: (context) =>  BottomNaavigationBar()));
     }
   }
 }
