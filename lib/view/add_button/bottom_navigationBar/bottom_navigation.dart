@@ -1,13 +1,10 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:money_management_app1/view/add_button/add_button.dart';
-
 import 'package:money_management_app1/view/home_screen/home_page.dart';
 import 'package:money_management_app1/view/pie_chart/pie_chart.dart';
 import 'package:money_management_app1/view_model/bottom_controller/bottom_model.dart';
 import 'package:provider/provider.dart';
-
 import '../../category/catergory.dart';
 import '../../settings/settings.dart';
 
@@ -20,26 +17,23 @@ class BottomNaavigationBar extends StatelessWidget {
     const Settings(),
   ];
 
-  
   @override
   Widget build(BuildContext context) {
     final screenindexprovider = Provider.of<ScreenIndexProvider>(context);
     int currentScreenIndex = screenindexprovider.fetchCurrentScreenIndex;
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
         elevation: 1.5,
         currentIndex: currentScreenIndex,
         onTap: (value) => screenindexprovider.updateScreenIndex(value),
         items: [
           BottomNavigationBarItem(
-              label: 'Home',
-              icon: Icon(
-                  (currentScreenIndex == 0) ? Icons.home : Icons.home_outlined),
-              backgroundColor: Colors.blue
-               
-              ),
+            label: 'Home',
+            icon: Icon(
+                (currentScreenIndex == 0) ? Icons.home : Icons.home_outlined),
+          ),
           BottomNavigationBarItem(
             label: 'chart',
             icon: Icon((currentScreenIndex == 1)
@@ -61,7 +55,7 @@ class BottomNaavigationBar extends StatelessWidget {
         ],
       ),
       body: screens[currentScreenIndex],
-           floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 34, 137, 211),
         onPressed: (() {
           Navigator.of(context).push(
@@ -72,8 +66,7 @@ class BottomNaavigationBar extends StatelessWidget {
           size: 50,
         ),
       ),
-     // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:money_management_app1/model/transaction_model/transaction_model.
 import 'package:money_management_app1/view_model/bottom_controller/bottom_model.dart';
 import 'package:money_management_app1/view_model/category_db.dart/category_db.dart';
 import 'package:money_management_app1/components/splash_screen.dart';
+import 'package:money_management_app1/view_model/income_pie_chart/icome_pie_chart.dart';
 import 'package:money_management_app1/view_model/transation_db/transation_db.dart';
 import 'package:money_management_app1/view_model/view_more_db/view_more_controller.dart';
 import 'package:month_year_picker/month_year_picker.dart';
@@ -47,6 +48,7 @@ Future<void> main() async {
     ChangeNotifierProvider(create: (context)=>TransactionDb()),
     ChangeNotifierProvider(create: (context)=>ScreenIndexProvider()),
     ChangeNotifierProvider(create: (context)=>ViewMoreController()),
+    ChangeNotifierProvider(create: (context)=>IncomePieChartController()),
   ],
   child: const MyApp(),
   ),

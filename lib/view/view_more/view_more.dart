@@ -238,8 +238,6 @@ class _ViewMoreListState extends State<ViewMoreList> {
 
     TransactionDb.instance.monthelyNotifier.clear();
     updateData();
-    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-    //TransactionDb.instance.monthelyNotifier.notifyListeners();
   }
 
   updateData() async {
