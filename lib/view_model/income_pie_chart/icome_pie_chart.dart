@@ -14,10 +14,8 @@ class IncomePieChartController extends ChangeNotifier {
   List<TransactionModel> completeIncomePieChartNotifier = [];
   List<ChartData> connectedList =
       chartLogic(TransactionDb.instance.incomeChartListNotifier.value);
-  List<ChartData> todayListGraph =
-      chartLogic(TransactionDb.instance.todayIncomeNotifier.value);
-  List<ChartData> yesterdayListGraph =
-      chartLogic(TransactionDb.instance.yesterdayIncomeNotifier.value);
+  late List<ChartData> todayListGraph = chartLogic(todayIncomeNotifier);
+  late List<ChartData> yesterdayListGraph = chartLogic(yesterdayIncomeNotifier);
 
   String? dropName = 'All';
   var period = [
@@ -26,7 +24,7 @@ class IncomePieChartController extends ChangeNotifier {
     'Yesterday',
   ];
 
-    changeDropName(dynamic dropName) {
+  changeDropName(dynamic dropName) {
     this.dropName = dropName;
     notifyListeners();
   }
@@ -48,6 +46,7 @@ class IncomePieChartController extends ChangeNotifier {
 
     var list = await getData();
     Future.forEach(list, (TransactionModel element) {
+    //   balacneNotifier.value = balacneNotifier.value + element.amount;
       String dbtodayDate = DateFormat.yMd().format(element.date);
       completeIncomePieChartNotifier.add(element);
       if (todayDate == dbtodayDate) {
@@ -70,5 +69,7 @@ class IncomePieChartController extends ChangeNotifier {
     }
   }
 
-  
+//  double balacneNotifier = 0;
+//  double incomeNotifier = 0;
+
 }

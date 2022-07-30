@@ -26,13 +26,8 @@ class TransactionDb extends TransactionDbFunction with ChangeNotifier {
   }
 
   List<TransactionModel> transationListNotifier = [];
-
-  // ValueNotifier<List<TransactionModel>> transationListNotifier =
-  //     ValueNotifier([]);
-
   ValueNotifier<List<TransactionModel>> incomeChartListNotifier =
       ValueNotifier([]);
-
   ValueNotifier<List<TransactionModel>> expenseChartListNotifier =
       ValueNotifier([]);
 
@@ -47,17 +42,14 @@ class TransactionDb extends TransactionDbFunction with ChangeNotifier {
   ValueNotifier<double> incomeNotifier = ValueNotifier(0);
   ValueNotifier<double> expenseNotifier = ValueNotifier(0);
 
-  // ValueNotifier<List<TransactionModel>> todayNotifier = ValueNotifier([]);
-  // ValueNotifier<List<TransactionModel>> yesterdayNotifier = ValueNotifier([]);
-  //ValueNotifier<List<TransactionModel>> monthelyNotifier = ValueNotifier([]);
 
   List<TransactionModel> monthelyNotifier = [];
   List<TransactionModel> yesterdayNotifier = [];
   List<TransactionModel> todayNotifier = [];
 
-  ValueNotifier<List<TransactionModel>> todayIncomeNotifier = ValueNotifier([]);
-  ValueNotifier<List<TransactionModel>> yesterdayIncomeNotifier =
-      ValueNotifier([]);
+  // ValueNotifier<List<TransactionModel>> todayIncomeNotifier = ValueNotifier([]);
+  // ValueNotifier<List<TransactionModel>> yesterdayIncomeNotifier =
+  //     ValueNotifier([]);
 
   ValueNotifier<List<TransactionModel>> todayExpenseNotifier =
       ValueNotifier([]);
@@ -73,8 +65,8 @@ class TransactionDb extends TransactionDbFunction with ChangeNotifier {
   Future<void> refresh() async {
     var list = await getAllTransactions();
     list = list.reversed.toList();
-    todayIncomeNotifier.value.clear();
-    yesterdayIncomeNotifier.value.clear();
+    // todayIncomeNotifier.value.clear();
+    // yesterdayIncomeNotifier.value.clear();
     todayNotifier.clear();
     yesterdayNotifier.clear();
     todayExpenseNotifier.value.clear();
@@ -88,8 +80,8 @@ class TransactionDb extends TransactionDbFunction with ChangeNotifier {
 
     incomeChartListNotifier.value.clear();
     expenseChartListNotifier.value.clear();
-    balacneNotifier.value = 0;
-    incomeNotifier.value = 0;
+   balacneNotifier.value = 0;
+   incomeNotifier.value = 0;
     expenseNotifier.value = 0;
 
     for (var data in list) {
@@ -127,13 +119,14 @@ class TransactionDb extends TransactionDbFunction with ChangeNotifier {
 
       if (category.type == CategoryType.income) {
         if (todayDate == databaseDate) {
-          todayIncomeNotifier.value.add(category);
+       //   todayIncomeNotifier.value.add(category);
         }
         if (yesterdayDate == databaseDate) {
-          yesterdayIncomeNotifier.value.add(category);
+        //  yesterdayIncomeNotifier.value.add(category);
         }
         incomeNotifier.value = incomeNotifier.value + category.amount;
-      } else if (category.type == CategoryType.expense) {
+      }
+       else if (category.type == CategoryType.expense) {
         if (todayDate == databaseDate) {
           todayExpenseNotifier.value.add(category);
         }
@@ -158,17 +151,12 @@ class TransactionDb extends TransactionDbFunction with ChangeNotifier {
     // ignore: invalid_use_of_protected_member
     expenseNotifier.notifyListeners();
 
-    // ignore: invalid_use_of_protected_member
-    //todayNotifier.notifyListeners();
-    // ignore: invalid_use_of_protected_member
-    //yesterdayNotifier.notifyListeners();
-    // ignore: invalid_use_of_protected_member
-    // monthelyNotifier.notifyListeners();
+   
 
     // ignore: invalid_use_of_protected_member
-    todayIncomeNotifier.notifyListeners();
+   // todayIncomeNotifier.notifyListeners();
     // ignore: invalid_use_of_protected_member
-    yesterdayIncomeNotifier.notifyListeners();
+   // yesterdayIncomeNotifier.notifyListeners();
 
     // ignore: invalid_use_of_protected_member
     todayExpenseNotifier.notifyListeners();
