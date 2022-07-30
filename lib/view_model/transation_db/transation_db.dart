@@ -64,6 +64,12 @@ class TransactionDb extends TransactionDbFunction with ChangeNotifier {
   ValueNotifier<List<TransactionModel>> yesterdayExpenseNotifier =
       ValueNotifier([]);
 
+  getAlList() async {
+    dynamic allList = await getAllTransactions();
+    notifyListeners();
+    return allList;
+  }
+
   Future<void> refresh() async {
     var list = await getAllTransactions();
     list = list.reversed.toList();
@@ -157,7 +163,7 @@ class TransactionDb extends TransactionDbFunction with ChangeNotifier {
     // ignore: invalid_use_of_protected_member
     //yesterdayNotifier.notifyListeners();
     // ignore: invalid_use_of_protected_member
-   // monthelyNotifier.notifyListeners();
+    // monthelyNotifier.notifyListeners();
 
     // ignore: invalid_use_of_protected_member
     todayIncomeNotifier.notifyListeners();
@@ -169,7 +175,6 @@ class TransactionDb extends TransactionDbFunction with ChangeNotifier {
     // ignore: invalid_use_of_protected_member
     yesterdayExpenseNotifier.notifyListeners();
     notifyListeners();
-    
   }
 
   @override
@@ -201,8 +206,4 @@ class TransactionDb extends TransactionDbFunction with ChangeNotifier {
     getAllTransactions();
     notifyListeners();
   }
-
-
-
-
 }

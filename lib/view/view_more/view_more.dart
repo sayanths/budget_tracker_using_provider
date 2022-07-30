@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:money_management_app1/components/delete_popup.dart';
 import 'package:money_management_app1/model/category_model/category_model.dart';
 import 'package:money_management_app1/model/transaction_model/transaction_model.dart';
 import 'package:money_management_app1/utils/styles_color.dart';
 import 'package:money_management_app1/view/texttile_edit/texttile_edit.dart';
 import 'package:money_management_app1/view/view_more/more_Screen_widget/more_screen_widget.dart';
 import 'package:money_management_app1/view_model/transation_db/transation_db.dart';
+import 'package:money_management_app1/view_model/view_more_db/view_more_controller.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
 import '../add_button/add_button_widget.dart/add_button_widget.dart';
@@ -29,16 +31,8 @@ class _ViewMoreListState extends State<ViewMoreList> {
     super.initState();
   }
 
-  String? _dropName = 'All';
-
   @override
   Widget build(BuildContext context) {
-    var period = [
-      'All',
-      'Today',
-      'Yesterday',
-      'Monthly',
-    ];
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -52,17 +46,19 @@ class _ViewMoreListState extends State<ViewMoreList> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: DropdownButton(
-                        hint: Text(_dropName.toString()),
-                        value: _dropName,
-                        items: period.map((e) {
-                          return DropdownMenuItem(value: e, child: Text(e));
-                        }).toList(),
-                        onChanged: (String? value) {
-                          setState(() {
-                            _dropName = value;
+                    child: Consumer<ViewMoreController>(
+                        builder: (BuildContext context, value, Widget? child) {
+                      return DropdownButton(
+                          hint: const Text("ds"),
+                          value: value.dropDown,
+                          items: value.period.map((e) {
+                            return DropdownMenuItem(value: e, child: Text(e));
+                          }).toList(),
+                          onChanged: (newvalue) {
+                            value.changeDropName(newvalue);
+                            valueChecking(context, newvalue);
                           });
-                        }),
+                    }),
                   ),
                 ),
                 ValueListenableBuilder(
@@ -82,15 +78,8 @@ class _ViewMoreListState extends State<ViewMoreList> {
             ),
             spaceGive,
             spaceGive,
-            // ValueListenableBuilder(
-            //     valueListenable: valueChecking(context),
-            //     builder: (BuildContext context, List<TransactionModel> newList,
-            //         Widget? _) {
-            //       return
-            //     }),
-            Consumer<TransactionDb>(
-              builder: ((context, newList, _) {
-              return newList.transationListNotifier.isEmpty
+            Consumer<ViewMoreController>(builder: ((context, newList, _) {
+              return newList.allList.isEmpty
                   ? Column(
                       children: const [Text("No  transaction Added")],
                     )
@@ -98,7 +87,8 @@ class _ViewMoreListState extends State<ViewMoreList> {
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: ((BuildContext context, int index) {
-                        final newValue = newList.transationListNotifier[index];
+                        final newValue =
+                            valueChecking(context, newList.dropDown)[index];
                         return Slidable(
                           endActionPane: ActionPane(
                             motion: const ScrollMotion(),
@@ -108,35 +98,7 @@ class _ViewMoreListState extends State<ViewMoreList> {
                                   showDialog(
                                     context: context,
                                     builder: ((context) {
-                                      return AlertDialog(
-                                        title: const Text(
-                                            "Do you want to delete?"),
-                                        actions: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              TextButton(
-                                                  onPressed: () {
-                                                    TransactionDb()
-                                                        .deleteTransaction(
-                                                            newValue.id
-                                                                .toString());
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: const Text("Yes")),
-                                              const SizedBox(
-                                                width: 30,
-                                              ),
-                                              TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: const Text("No")),
-                                            ],
-                                          ),
-                                        ],
-                                      );
+                                      return TheDialogBox(newValue: newValue);
                                     }),
                                   );
                                 },
@@ -217,7 +179,7 @@ class _ViewMoreListState extends State<ViewMoreList> {
                           height: 10,
                         );
                       }),
-                      itemCount: newList.transationListNotifier.length);
+                      itemCount: lengthCheck(newList.dropDown));
             }))
           ],
         ),
@@ -225,19 +187,41 @@ class _ViewMoreListState extends State<ViewMoreList> {
     );
   }
 
-  List<TransactionModel> valueChecking(context) {
+  valueChecking(context, dropName) {
     visibleMonth.value = false;
-    if (_dropName == 'Today') {
-      return Provider.of<TransactionDb>(context).todayNotifier;
-    } else if (_dropName == 'Yesterday') {
-      print("ds");
-      return TransactionDb().yesterdayNotifier;
-    } else if (_dropName == 'Monthly') {
-      visibleMonth.value = true;
+    if (dropName == 'Today') {
+      return Provider.of<ViewMoreController>(context, listen: false)
+          .todayNotifier;
+    } else if (dropName == 'Yesterday') {
+      return Provider.of<ViewMoreController>(context, listen: false)
+          .yesterdayNotifier;
+    }
+    // else if (dropName == 'Yesterday') {
 
-      return Provider.of<TransactionDb>(context).monthelyNotifier;
+    //   return TransactionDb().yesterdayNotifier;
+    // } else if (dropName == 'Monthly') {
+    //   visibleMonth.value = true;
+
+    //   return Provider.of<TransactionDb>(context).monthelyNotifier;
+    //}
+    else {
+      return Provider.of<ViewMoreController>(context, listen: false).allList;
+    }
+  }
+
+  lengthCheck(dropName) {
+    if (dropName == 'Today') {
+      return Provider.of<ViewMoreController>(context, listen: false)
+          .todayNotifier
+          .length;
+    } else if (dropName == 'Yesterday') {
+      return Provider.of<ViewMoreController>(context, listen: false)
+          .yesterdayNotifier
+          .length;
     } else {
-      return Provider.of<TransactionDb>(context).transationListNotifier;
+      return Provider.of<ViewMoreController>(context, listen: false)
+          .allList
+          .length;
     }
   }
 
