@@ -69,7 +69,6 @@ class IncomePieChartController extends ChangeNotifier {
     }
   }
 
-//  double balacneNotifier = 0;
-//  double incomeNotifier = 0;
+
 
 }
