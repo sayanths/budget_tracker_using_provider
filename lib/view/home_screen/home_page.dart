@@ -4,7 +4,6 @@ import 'package:money_management_app1/utils/styles_color.dart';
 import 'package:money_management_app1/view/home_screen/home_page_widget/home_page_widget.dart';
 import 'package:money_management_app1/view/home_screen/listview_sperated_list.dart';
 import 'package:money_management_app1/view/view_more/view_more.dart';
-import 'package:money_management_app1/view_model/category_db.dart/category_db.dart';
 import 'package:money_management_app1/view_model/transation_db/transation_db.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,7 +26,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     TransactionDb.instance.refresh();
-  //  CategoryDB.instance.refreshUi();
 
     return Scaffold(
       backgroundColor: Colors.white,

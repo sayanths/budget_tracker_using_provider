@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
-import 'package:money_management_app1/components/delete_popup.dart';
 import 'package:money_management_app1/model/category_model/category_model.dart';
 import 'package:money_management_app1/model/transaction_model/transaction_model.dart';
 import 'package:money_management_app1/utils/styles_color.dart';
@@ -98,7 +97,39 @@ class _ViewMoreListState extends State<ViewMoreList> {
                                   showDialog(
                                     context: context,
                                     builder: ((context) {
-                                      return TheDialogBox(newValue: newValue);
+                                      return AlertDialog(
+                                        title: const Text(
+                                            "Do you want to delete?"),
+                                        actions: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Consumer<TransactionDb>(
+                                                builder: (context, value,
+                                                        child) =>
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          
+
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child:
+                                                            const Text("Yes")),
+                                              ),
+                                              const SizedBox(
+                                                width: 30,
+                                              ),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text("No")),
+                                            ],
+                                          ),
+                                        ],
+                                      );
                                     }),
                                   );
                                 },

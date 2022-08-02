@@ -4,7 +4,7 @@ import 'package:money_management_app1/utils/styles_color.dart';
 import 'package:money_management_app1/view_model/category_db.dart/category_db.dart';
 import 'package:money_management_app1/view/category/expense_category/expense_category.dart';
 import 'package:money_management_app1/view/category/income_category/income_catergory.dart';
-import 'package:provider/provider.dart';
+
 
 import '../home_screen/home_page_widget/home_page_widget.dart';
 

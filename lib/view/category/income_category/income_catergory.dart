@@ -21,9 +21,7 @@ class _IncomeCategoryState extends State<IncomeCategory> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        Provider.of<CategoryDB>(context, listen: false).refreshUi();
-    });
+  
     return Column(
       children: [
         Padding(

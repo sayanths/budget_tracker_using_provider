@@ -1,24 +1,11 @@
 import 'package:flutter/material.dart';
-
-import 'package:money_management_app1/view/pie_chart/chart_functions/chart_functions.dart';
-import 'package:money_management_app1/view_model/income_pie_chart/icome_pie_chart.dart';
-import 'package:money_management_app1/view_model/transation_db/transation_db.dart';
+import 'package:money_management_app1/view_model/income_controller/income_controller.dart';
 import 'package:provider/provider.dart';
-
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class IncomeChart extends StatefulWidget {
+class IncomeChart extends StatelessWidget {
   const IncomeChart({Key? key}) : super(key: key);
 
-  @override
-  State<IncomeChart> createState() => _IncomeChartState();
-}
-class _IncomeChartState extends State<IncomeChart> {
-  @override
-  void initState() {
-    TransactionDb.instance.refresh();
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,12 +13,12 @@ class _IncomeChartState extends State<IncomeChart> {
         children: [
           Column(
             children: [
-              SizedBox(child: Consumer<IncomePieChartController>(
+              SizedBox(child: Consumer<IncomeChartController>(
                 builder: (context, incomePieCntrl, child) {
                   return FutureBuilder(
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot) {
-                      return incomePieCntrl.connectedList.isEmpty
+                      return incomePieCntrl.filteredData.isEmpty
                           ? Padding(
                               padding: const EdgeInsets.all(12),
                               child: Column(
@@ -53,17 +40,17 @@ class _IncomeChartState extends State<IncomeChart> {
                             )
                           : Column(
                               children: [
-                                DropdownButton(
-                                    hint: Text(
-                                        incomePieCntrl.dropName.toString()),
-                                    value: incomePieCntrl.dropName,
-                                    items: incomePieCntrl.period.map((newList) {
-                                      return DropdownMenuItem(
-                                          value: newList, child: Text(newList));
-                                    }).toList(),
-                                    onChanged: (String? newvalue) {
-                                      incomePieCntrl.changeDropName(newvalue);
-                                    }),
+                                // DropdownButton(
+                                //     hint: Text(
+                                //         incomePieCntrl.dropName.toString()),
+                                //     value: incomePieCntrl.dropName,
+                                //     items: incomePieCntrl.period.map((newList) {
+                                //       return DropdownMenuItem(
+                                //           value: newList, child: Text(newList));
+                                //     }).toList(),
+                                //     onChanged: (String? newvalue) {
+                                //       incomePieCntrl.changeDropName(newvalue);
+                                //     }),
                                 SfCircularChart(
                                     palette: const <Color>[
                                       Colors.amber,
@@ -85,16 +72,16 @@ class _IncomeChartState extends State<IncomeChart> {
                                           fontWeight: FontWeight.w500),
                                     ),
                                     series: <CircularSeries>[
-                                      PieSeries<ChartData, String>(
+                                      PieSeries<ChartDat, String>(
                                         dataLabelSettings:
                                             const DataLabelSettings(
                                           isVisible: true,
                                         ),
                                         dataSource:
-                                            incomePieCntrl.chartDataChecking(),
-                                        xValueMapper: (ChartData data, _) =>
+                                            incomePieCntrl.filteredData,
+                                        xValueMapper: (ChartDat data, _) =>
                                             data.categories,
-                                        yValueMapper: (ChartData data, _) =>
+                                        yValueMapper: (ChartDat data, _) =>
                                             data.amount,
                                       )
                                     ]),

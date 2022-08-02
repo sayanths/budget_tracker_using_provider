@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:money_management_app1/view/pie_chart/chart_functions/chart_functions.dart';
-import 'package:money_management_app1/view_model/expense_list_controller/expense_list_controller.dart';
+import 'package:money_management_app1/view_model/expense_providerontroller.dart/expense_providerontroller.dart';
 import 'package:money_management_app1/view_model/transation_db/transation_db.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -26,12 +25,12 @@ class _ExpenseChartState extends State<ExpenseChart> {
         children: [
           Column(
             children: [
-              SizedBox(child: Consumer<ExpenseListController>(
+              SizedBox(child: Consumer<ExpenseController>(
                 builder: (context, expnseList, child) {
                   return FutureBuilder(
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot) {
-                      return expnseList.connectedList.isEmpty
+                      return expnseList.getAllChartDatas.isEmpty
                           ? Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Column(
@@ -53,16 +52,16 @@ class _ExpenseChartState extends State<ExpenseChart> {
                             )
                           : Column(
                               children: [
-                                DropdownButton(
-                                    hint: Text(expnseList.dropName.toString()),
-                                    value: expnseList.dropName,
-                                    items: expnseList.period.map((newList) {
-                                      return DropdownMenuItem(
-                                          value: newList, child: Text(newList));
-                                    }).toList(),
-                                    onChanged: (String? newvalue) {
-                                      expnseList.expenseChart(newvalue);
-                                    }),
+                                // DropdownButton(
+                                //     hint: Text(expnseList.dropName.toString()),
+                                //     value: expnseList.dropName,
+                                //     items: expnseList.period.map((newList) {
+                                //       return DropdownMenuItem(
+                                //           value: newList, child: Text(newList));
+                                //     }).toList(),
+                                //     onChanged: (String? newvalue) {
+                                //       expnseList.expenseChart(newvalue);
+                                //     }),
                                 SfCircularChart(
                                     palette: const <Color>[
                                       Colors.amber,
@@ -84,15 +83,15 @@ class _ExpenseChartState extends State<ExpenseChart> {
                                           fontWeight: FontWeight.w500),
                                     ),
                                     series: <CircularSeries>[
-                                      PieSeries<ChartData, String>(
+                                      PieSeries<ChartDat, String>(
                                         dataLabelSettings:
                                             const DataLabelSettings(
                                           isVisible: true,
                                         ),
-                                        dataSource: expnseList.updateExpenseChart(),
-                                        xValueMapper: (ChartData data, _) =>
+                                        dataSource: expnseList.getAllChartDatas,
+                                        xValueMapper: (ChartDat data, _) =>
                                             data.categories,
-                                        yValueMapper: (ChartData data, _) =>
+                                        yValueMapper: (ChartDat data, _) =>
                                             data.amount,
                                       )
                                     ]),

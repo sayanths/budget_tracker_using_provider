@@ -6,6 +6,7 @@ import 'package:money_management_app1/model/category_model/category_model.dart';
 import 'package:money_management_app1/utils/styles_color.dart';
 import 'package:money_management_app1/view/home_screen/home_page_widget/home_page_widget.dart';
 import 'package:money_management_app1/view/texttile_edit/texttile_edit.dart';
+import 'package:money_management_app1/view_model/edit_controller/edit_controller.dart';
 import 'package:money_management_app1/view_model/transation_db/transation_db.dart';
 import 'package:provider/provider.dart';
 
@@ -60,6 +61,18 @@ class ItemList extends StatelessWidget {
                           ),
                           SlidableAction(
                             onPressed: (BuildContext context) {
+                              context
+                                  .read<EditController>()
+                                  .setDate(newValue.date);
+                                   context
+                                  .read<EditController>()
+                                  .setCategoryType(newValue.type);
+                                   context
+                                  .read<EditController>()
+                                  .setCategoryModel(newValue.category);
+                                   context
+                                  .read<EditController>()
+                                  .setcategotyid(null);
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => EditPage(
@@ -97,7 +110,7 @@ class ItemList extends StatelessWidget {
                               leading: Container(
                                 width: 80,
                                 decoration: BoxDecoration(
-                                  color: newValue.type== CategoryType.income
+                                  color: newValue.type == CategoryType.income
                                       ? const Color.fromARGB(255, 42, 139, 46)
                                       : const Color.fromARGB(255, 208, 34, 21),
                                   borderRadius: BorderRadius.circular(15),
@@ -146,7 +159,6 @@ class ItemList extends StatelessWidget {
     );
   }
 }
-
 
 String parseDate(DateTime date) {
   final datefrmt = DateFormat.MMMd().format(date);

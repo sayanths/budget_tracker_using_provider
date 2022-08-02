@@ -54,7 +54,8 @@ class _PieChartState extends State<PieChart>
           Expanded(
             child: TabBarView(controller: _tabController, children:  const [
               IncomeChart(),
-              ExpenseChart(),
+           
+             ExpenseChart(),
             ]),
           ),
         ],

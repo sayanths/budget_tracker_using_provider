@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_management_app1/utils/styles_color.dart';
 
+// ignore: must_be_immutable
 class BalanceShow extends StatelessWidget {
   String mainText;
   String typeText;

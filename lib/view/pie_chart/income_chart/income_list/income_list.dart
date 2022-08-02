@@ -12,7 +12,7 @@ class IncomeChartList extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    // TransactionDb.instance.refresh();
+     TransactionDb.instance.refresh();
     return ValueListenableBuilder(
         valueListenable: TransactionDb().incomeChartListNotifier,
         builder: (BuildContext context, List<TransactionModel> incomeList,

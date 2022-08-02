@@ -1,25 +1,15 @@
 import 'package:flutter/cupertino.dart';
-
-// class ScreenIndexProvider extends ChangeNotifier {
-//   int _currentIndex = 0;
-//  int get currentIndex => _currentIndex;
-//   set updateIndexScreen(int newIndex) {
-//     _currentIndex = newIndex;
-//     notifyListeners();
-//   }
-// }
 import 'package:flutter/material.dart';
 
 class ScreenIndexProvider extends ChangeNotifier {
-  int screenIndex = 0; // Initial index of the screen
+  int screenIndex = 0; 
   int get fetchCurrentScreenIndex {
-    // function to return the current screen Index
     return screenIndex;
   }
 
   void updateScreenIndex(int newIndex) {
-    // function to update the screenIndex
+    
     screenIndex = newIndex;
-    notifyListeners(); // This will notify every listeners that the screen index has been changed
+    notifyListeners(); 
   }
 }

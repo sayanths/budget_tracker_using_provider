@@ -6,8 +6,10 @@ import 'package:money_management_app1/view_model/category_db.dart/category_db.da
 import 'package:money_management_app1/view/category/expense_category/expense_category.dart';
 import 'package:money_management_app1/view/category/income_category/income_catergory.dart';
 import 'package:money_management_app1/view_model/transation_db/transation_db.dart';
+import 'package:provider/provider.dart';
 
 import '../home_screen/home_page_widget/home_page_widget.dart';
+import '../pie_chart/chart_functions/chart_functions.dart';
 import 'add_button_widget.dart/add_button_widget.dart';
 
 class AddButton extends StatefulWidget {
@@ -42,7 +44,7 @@ class _AddButtonState extends State<AddButton> {
   @override
   Widget build(BuildContext context) {
     TransactionDb.instance.refresh();
-    // CategoryDB.instance.refreshUi();
+   
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 0),
@@ -232,6 +234,7 @@ class _AddButtonState extends State<AddButton> {
                         formkey.currentState?.validate();
 
                         _addtransaction(context);
+                        context.read<ChartDatas>().getdata();
                         TransactionDb().refresh();
                       },
                       style: ElevatedButton.styleFrom(

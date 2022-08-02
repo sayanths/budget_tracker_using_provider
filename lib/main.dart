@@ -5,11 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:money_management_app1/model/category_model/category_model.dart';
 import 'package:money_management_app1/model/transaction_model/transaction_model.dart';
+import 'package:money_management_app1/view/pie_chart/chart_functions/chart_functions.dart';
 import 'package:money_management_app1/view_model/bottom_controller/bottom_model.dart';
 import 'package:money_management_app1/view_model/category_db.dart/category_db.dart';
 import 'package:money_management_app1/components/splash_screen.dart';
-import 'package:money_management_app1/view_model/expense_list_controller/expense_list_controller.dart';
-import 'package:money_management_app1/view_model/income_pie_chart/icome_pie_chart.dart';
+import 'package:money_management_app1/view_model/edit_controller/edit_controller.dart';
+import 'package:money_management_app1/view_model/expense_providerontroller.dart/expense_providerontroller.dart';
+import 'package:money_management_app1/view_model/income_controller/income_controller.dart';
 import 'package:money_management_app1/view_model/transation_db/transation_db.dart';
 import 'package:money_management_app1/view_model/view_more_db/view_more_controller.dart';
 import 'package:month_year_picker/month_year_picker.dart';
@@ -49,8 +51,10 @@ Future<void> main() async {
     ChangeNotifierProvider(create: (context)=>TransactionDb()),
     ChangeNotifierProvider(create: (context)=>ScreenIndexProvider()),
     ChangeNotifierProvider(create: (context)=>ViewMoreController()),
-    ChangeNotifierProvider(create: (context)=>IncomePieChartController()),
-    ChangeNotifierProvider(create: (context)=>ExpenseListController()),
+    ChangeNotifierProvider(create: (context)=>ChartDatas()),
+    ChangeNotifierProvider(create: (context)=>ExpenseController()),
+    ChangeNotifierProvider(create: (context)=>IncomeChartController()),
+    ChangeNotifierProvider(create: (context)=>EditController()),
   ],
   child: const MyApp(),
   ),

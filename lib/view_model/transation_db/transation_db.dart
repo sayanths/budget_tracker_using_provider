@@ -26,7 +26,6 @@ class TransactionDb extends TransactionDbFunction with ChangeNotifier {
   }
 
   List<TransactionModel> transationListNotifier = [];
-  
 
   ValueNotifier<List<TransactionModel>> incomeChartListNotifier =
       ValueNotifier([]);
@@ -79,13 +78,13 @@ class TransactionDb extends TransactionDbFunction with ChangeNotifier {
     incomeNotifier = 0;
     expenseNotifier = 0;
 
-    for (var data in list) {
-      if (data.type == CategoryType.income) {
-        incomeChartListNotifier.value.add(data);
-      } else if (data.type == CategoryType.expense) {
-        expenseChartListNotifier.value.add(data);
-      }
-    }
+    // for (var data in list) {
+    //   if (data.type == CategoryType.income) {
+    //     incomeChartListNotifier.value.add(data);
+    //   } else if (data.type == CategoryType.expense) {
+    //     expenseChartListNotifier.value.add(data);
+    //   }
+    // }
 
     String todayDate = DateFormat.yMd().format(DateTime.now());
 
@@ -156,6 +155,7 @@ class TransactionDb extends TransactionDbFunction with ChangeNotifier {
 
   @override
   Future<void> updateTransation(
+      // ignore: avoid_renaming_method_parameters
       String index, TransactionModel transationUpdate) async {
     final db = await Hive.openBox<TransactionModel>(transationDbName);
     await db.put(index, transationUpdate);
