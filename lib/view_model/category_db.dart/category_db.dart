@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -21,8 +20,19 @@ class CategoryDB extends CategoryDbFunctions with ChangeNotifier {
   factory CategoryDB() {
     return instance;
   }
+
+  // DateTime? dateTime;
+  // CategoryType? categoryTypeSelected;
+  // CategoryModel? categoryModel;
+  // String? categoryId;
+  // String? categoryNametype;
   List<CategoryModel> expesneCategoryListable = [];
   List<CategoryModel> incomeCategoryListenable = [];
+  // dynamic? dropDownValue;
+  // changeeDropDown(dropDownValue) {
+  //   this.dropDownValue = dropDownValue;
+  //   notifyListeners();
+  // }
 
   @override
   // ignore: avoid_renaming_method_parameters

@@ -225,7 +225,7 @@ class _EditPageState extends State<EditPage> {
                                       widget.datas.type
                                   ? Text(widget.datas.category.name)
                                   : const Text(
-                                      'Select Category',
+                                      'Category',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
                                           color: Colors.black54),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:money_management_app1/model/category_model/category_model.dart';
 import 'package:money_management_app1/model/transaction_model/transaction_model.dart';
 import 'package:money_management_app1/utils/styles_color.dart';
+import 'package:money_management_app1/view_model/add_controller/add_controller.dart';
 import 'package:money_management_app1/view_model/category_db.dart/category_db.dart';
 import 'package:money_management_app1/view/category/expense_category/expense_category.dart';
 import 'package:money_management_app1/view/category/income_category/income_catergory.dart';
@@ -44,7 +45,7 @@ class _AddButtonState extends State<AddButton> {
   @override
   Widget build(BuildContext context) {
     TransactionDb.instance.refresh();
-   
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 0),
@@ -61,53 +62,69 @@ class _AddButtonState extends State<AddButton> {
                   children: [
                     spaceGive,
                     spaceGive,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ChoiceChip(
-                          label: Text(
-                            "Income",
-                            style: TextStyle(
-                                color: type == "income"
-                                    ? Colors.white
-                                    : Colors.black),
+                     Consumer<AddController>(
+                      builder: (context, value, _) => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ChoiceChip(
+                            label: Text(
+                              "Income",
+                              style: TextStyle(
+                                  color: _categoryTypeSelected ==
+                                          CategoryType.income
+                                      ? Colors.white
+                                      : Colors.black),
+                            ),
+                            selectedColor:
+                                const Color.fromARGB(255, 3, 86, 154),
+                            selected: value.categoryTypeSelected ==
+                                    CategoryType.income
+                                ? true
+                                : false,
+                            onSelected: (val) {
+                              context
+                                  .read<AddController>()
+                                  .choiceChipRebuild('Income');
+                              context
+                                  .read<AddController>()
+                                  .setCategoryType(CategoryType.income);
+                              _categoryTypeSelected =
+                                  value.categoryTypeSelected;
+                              value.setcategotyid(null);
+                            },
                           ),
-                          selectedColor: const Color.fromARGB(255, 3, 86, 154),
-                          selected: type == "income" ? true : false,
-                          onSelected: (value) {
-                            if (value) {
-                              setState(() {
-                                type = "income";
-                                _categoryTypeSelected = CategoryType.income;
-                                categoryId = null;
-                              });
-                            }
-                          },
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        ChoiceChip(
-                          label: Text(
-                            "Expense",
-                            style: TextStyle(
-                                color: type == "Expense"
-                                    ? Colors.white
-                                    : Colors.black),
+                          const SizedBox(
+                            width: 20,
                           ),
-                          selectedColor: const Color.fromARGB(255, 3, 86, 154),
-                          selected: type == "Expense" ? true : false,
-                          onSelected: (value) {
-                            if (value) {
-                              setState(() {
-                                type = "Expense";
-                                _categoryTypeSelected = CategoryType.expense;
-                                categoryId = null;
-                              });
-                            }
-                          },
-                        ),
-                      ],
+                          ChoiceChip(
+                            label: Text(
+                              "Expense",
+                              style: TextStyle(
+                                  color: _categoryTypeSelected ==
+                                          CategoryType.expense
+                                      ? Colors.white
+                                      : Colors.black),
+                            ),
+                            selectedColor:
+                                const Color.fromARGB(255, 3, 86, 154),
+                            selected: value.categoryTypeSelected ==
+                                    CategoryType.expense
+                                ? true
+                                : false,
+                            onSelected: (val) {
+                              context
+                                  .read<AddController>()
+                                  .choiceChipRebuild('Expense');
+                              context
+                                  .read<AddController>()
+                                  .setCategoryType(CategoryType.expense);
+                              _categoryTypeSelected =
+                                  value.categoryTypeSelected;
+                              value.setcategotyid(null);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 15,

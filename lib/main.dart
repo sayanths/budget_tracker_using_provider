@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -19,6 +17,8 @@ import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 // ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'view_model/add_controller/add_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,6 +55,7 @@ Future<void> main() async {
     ChangeNotifierProvider(create: (context)=>ExpenseController()),
     ChangeNotifierProvider(create: (context)=>IncomeChartController()),
     ChangeNotifierProvider(create: (context)=>EditController()),
+    ChangeNotifierProvider(create: (context)=>AddController()),
   ],
   child: const MyApp(),
   ),
